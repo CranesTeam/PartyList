@@ -27,7 +27,7 @@ Run with IDE:
         gradle bootRun
 
 Run terminal:
-
+    gradle bootRun
 
 ____________________________
 

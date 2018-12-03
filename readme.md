@@ -14,7 +14,8 @@ Set your database and user/password.
 That is all.
 JPA auto created the new tables. Not experience.
 
-Second - resources/datasource/... here are the sql-update files. Use these files.
+Second - resources/datasource/... 
+here are the sql-update files. Use these files.
 You create new user:
     login - 2
     password - 2

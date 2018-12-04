@@ -18,25 +18,27 @@ JPA will automatically create all necessary tables, don't worry about it :)
 Secondly, go to resources/datasource/... 
 There you can find SQL-update files. Use these files.
 You should create new user. For example:
+
     login - test123
+    
     password - qwerty
 
 Thereafter you should open your IDE and:
-    1. Open the project;
-    2. Check main class - PartyListApplication;
-    3. Select "Debug" or "Run"
-    or terminal (gradle):
-        gradle bootRun
 
-And run in terminal:
-    gradle bootRun
+1. Open the project;
+2. Check main class - PartyListApplication;
+3. Select "Debug" or "Run"
+
+Or use terminal (gradle):
+        gradle bootRun
 
 ____________________________
 
 We use:
-Backend: Java 8, Gradle, Spring
-Frontend: JS, Bootstrap 4
-Database: MySQL
+
+    Backend: Java 8, Gradle, Spring
+    Frontend: JS, Bootstrap 4
+    Database: MySQL
 
 
 Version history:

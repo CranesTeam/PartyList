@@ -1,41 +1,44 @@
-This project is developed for each party. No more counting who owes you money. The service will do it for you.
+This project is designed for every party. No more counting who owes you money. This service will do it for you.
 
 version 0.0.1
-init the project.
-Create main controller, connect DB, Security, JPA, create main tests.
 
+Init the project.
+
+Create main controller, connect DB, Security, JPA, create main tests.
 
 ___________________________
 How to deploy this project?
 
-First - we used MYSQL database, for this reason will create new connection.
-You may change default our properties in application config file.
+We are using MySQL. Firstly, you should create new connection.
+You can change default properties in application config file.
 Set your database and user/password.
 That is all.
-JPA auto created the new tables. Not experience.
+JPA will automatically create all necessary tables, don't worry about it :)
 
-Second - resources/datasource/... 
-here are the sql-update files. Use these files.
-You create new user:
-    login - 2
-    password - 2
+Secondly, go to resources/datasource/... 
+There you can find SQL-update files. Use these files.
+You should create new user. For example:
 
-Run with IDE:
-    1. open the project in IDE;
-    2. Check main class - PartyListApplication;
-    3. Select "Debug" or "Run"
-    or terminal (gradle):
+    login - test123
+    
+    password - qwerty
+
+Thereafter you should open your IDE and:
+
+1. Open the project;
+2. Check main class - PartyListApplication;
+3. Select "Debug" or "Run"
+
+Or use terminal (gradle):
         gradle bootRun
-
-Run terminal:
-    gradle bootRun
 
 ____________________________
 
-Our team use:
-backend: Java 8, Gradle, Spring
-frontend: Js, Bootstrap 4
-database: MySQL
+We use:
+
+    Backend: Java 8, Gradle, Spring
+    Frontend: JS, Bootstrap 4
+    Database: MySQL
 
 
 Version history:

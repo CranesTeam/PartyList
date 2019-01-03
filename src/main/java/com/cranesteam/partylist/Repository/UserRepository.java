@@ -1,7 +1,10 @@
 package com.cranesteam.partylist.Repository;
 
 import com.cranesteam.partylist.Domain.User;
+import org.hibernate.annotations.Parameter;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -22,4 +25,18 @@ public interface UserRepository extends JpaRepository<User, Long> {
      * @return user
      */
     User findByUsername(String username);
+
+    /**
+     * Finds a person
+     *
+     * @param userString userString
+     * @return User
+     *
+     * todo
+     */
+    //@Query
+    //public User authFindUser(@Param("userString") String userString);
+
+
+
 }

@@ -2,7 +2,6 @@ package com.cranesteam.partylist.Controllers;
 
 import com.cranesteam.partylist.Domain.User;
 import com.cranesteam.partylist.Services.UserServices;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,13 +21,16 @@ import javax.validation.Valid;
 @Controller
 public class MainController {
 
-    @Autowired
     private UserServices userService;
 
-    @RequestMapping(value={"/", "/login"}, method = RequestMethod.GET)
+    public MainController(UserServices userService) {
+        this.userService = userService;
+    }
+
+    @RequestMapping(value={"/", "/signin"}, method = RequestMethod.GET)
     public ModelAndView login(){
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("login");
+        modelAndView.setViewName("signin");
         return modelAndView;
     }
 
@@ -44,7 +46,7 @@ public class MainController {
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
     public ModelAndView createNewUser(@Valid User user, BindingResult bindingResult) {
         ModelAndView modelAndView = new ModelAndView();
-        UserDetails userExists = userService.loadUserByUsername(user.getUsername());
+        User userExists = userService.loadUserByUsername(user.getUsername());
         if (userExists != null) {
             bindingResult
                     .rejectValue("username", "error.user",
@@ -66,7 +68,7 @@ public class MainController {
     public ModelAndView home(){
         ModelAndView modelAndView = new ModelAndView();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        UserDetails user = userService.loadUserByUsername(auth.getName());
+        User user = userService.loadUserByUsername(auth.getName());
         modelAndView.addObject("userName", "Welcome " + user.getUsername());
         modelAndView.addObject("adminMessage","welcome");
         modelAndView.setViewName("views/parties");

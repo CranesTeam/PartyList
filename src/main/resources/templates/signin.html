@@ -54,12 +54,15 @@
     </form>
 
     <a id="registration" href="registration.html">Don't have an account? Sign Up</a>
-    <p class="my-5 text-muted align-content-end">Copyright &copy; 2019 Cranes. Rights not reserved yet :)</p>
+    <p class="my-5 text-muted align-content-end" id="footer"></p>
 </div>
 </body>
 
 <script type="text/javascript">
     "use strict";
+
+    let now = new Date;
+    document.getElementById('footer').innerText = 'Copyright © ' + now.getFullYear() + ' Cranes. Rights not reserved yet :)';
 
     //Show password characters
     function showPassword() {

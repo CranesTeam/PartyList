@@ -4,6 +4,7 @@ import com.cranesteam.partylist.Domain.Role;
 import com.cranesteam.partylist.Domain.User;
 import com.cranesteam.partylist.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -20,22 +21,44 @@ import java.util.HashSet;
  *
  * @author ilyaivankin
  *
- * @see org.springframework.security.core.userdetails.UserDetailsService
+ * @see UserDetailsService
  */
 @Service("userServices")
 public class UserServices implements UserDetailsService {
 
-    @Autowired
     private UserRepository userRepository;
 
-    @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByUsername(username);
+    public UserServices(@Qualifier("userRepository") UserRepository userRepository,
+                        BCryptPasswordEncoder bCryptPasswordEncoder) {
+        this.userRepository = userRepository;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
+    /**
+     * Load user
+     *
+     * @param username username or email or phone number
+     * @return User
+     *
+     * @throws UsernameNotFoundException ex -> User not found
+     */
+    @Override
+    public User loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userRepository.findByUsername(username);
+        if (user != null) {
+            return user;
+        } else return null; // todo
+
+    }
+
+    /**
+     * @param user
+     *
+     * todo: create full user
+     *
+     */
     public void saveUser(User user) {
         User newUser = new User();
         newUser.setUsername(user.getUsername());

@@ -38,6 +38,10 @@ public class UserServicesTest {
         user.setId((long) 1);
         user.setUsername("test");
         user.setPassword("test");
+        user.setEmail("test@test.com");
+        user.setNumber("+79991234567");
+        user.setImage(false);
+
         user.setRole(Collections.singleton(Role.USER));
         user.setActive(true);
 
@@ -67,6 +71,22 @@ public class UserServicesTest {
 
         // Verify the results
         assertEquals(name, userRepository.findByUsername(name).getUsername());
+    }
+
+    @Test
+    public void testAuth() {
+        final String email = "test@test.com";
+        final String username = "test";
+        final String number = "+79991234567";
+
+        // Verify the results
+        assertEquals("test email",
+                email, userRepository.findByUsername(email).getEmail());
+        assertEquals("test name",
+                username, userRepository.findByUsername(email).getUsername());
+        assertEquals("test number",
+                number, userRepository.findByUsername(number).getNumber());
+
     }
 
 

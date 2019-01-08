@@ -3,15 +3,14 @@ package com.cranesteam.partylist.Services;
 import com.cranesteam.partylist.Domain.Role;
 import com.cranesteam.partylist.Domain.User;
 import com.cranesteam.partylist.Repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashSet;
 
 /**
@@ -20,22 +19,48 @@ import java.util.HashSet;
  *
  * @author ilyaivankin
  *
- * @see org.springframework.security.core.userdetails.UserDetailsService
+ * @see UserDetailsService
  */
+@Slf4j
 @Service("userServices")
 public class UserServices implements UserDetailsService {
 
-    @Autowired
     private UserRepository userRepository;
 
-    @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByUsername(username);
+    public UserServices(@Qualifier("userRepository") UserRepository userRepository,
+                        BCryptPasswordEncoder bCryptPasswordEncoder) {
+        this.userRepository = userRepository;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
+    /**
+     * Load user
+     *
+     * @param username username or email or phone number
+     * @return User
+     *
+     * @throws UsernameNotFoundException ex -> User not found
+     */
+    @Override
+    public User loadUserByUsername(String username) throws UsernameNotFoundException {
+        /* find user */
+        User user = userRepository.authFindUser(username);
+
+        if (user == null) {
+            log.warn(username + "-> user is not authorized for this application");
+            throw new UsernameNotFoundException("user is not authorized for this application");
+        }
+        /* return user */
+        return user;
+    }
+
+    /**
+     * todo: create full user (registration)
+     *
+     * @param user user
+     */
     public void saveUser(User user) {
         User newUser = new User();
         newUser.setUsername(user.getUsername());

@@ -42,6 +42,9 @@ dependencies {
 
     compile("org.springframework.boot:spring-boot-starter-thymeleaf")
 
+    // https://mvnrepository.com/artifact/com.google.guava/guava
+    compile group: 'com.google.guava', name: 'guava', version: '11.0.2'
+
     // https://mvnrepository.com/artifact/com.google.code.gson/gson
     compile group: 'com.google.code.gson', name: 'gson', version: '2.7'
 

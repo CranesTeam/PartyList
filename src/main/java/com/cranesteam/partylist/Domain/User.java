@@ -30,11 +30,24 @@ import java.util.Set;
 public class User implements UserDetails {
 
     @Id
+    @Column(name = "UserID")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
+    @Column(name = "Username")
     private String username;
+    @Column(name = "SecondName")
+    private String secondName;
+    @Column(name = "Email")
+    private String email;
+    @Column(name = "Name")
+    private String name;
+    @Column(name = "Avatar")
+    private boolean image;
+    @Column(name = "PhoneNumber")
+    private String number;
+    @Column(name = "Password")
     private String password;
+    @Column(name = "Active")
     private boolean active;
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)

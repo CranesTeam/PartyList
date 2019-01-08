@@ -28,6 +28,10 @@ public class UserServicesTest {
     private UserServices userServices;
     private User user;
 
+    private final String email = "test@test.com";
+    private final String username = "test";
+    private final String number = "+79991234567";
+
     @Before
     public void setUp() {
         initMocks(this);
@@ -45,40 +49,31 @@ public class UserServicesTest {
         user.setRole(Collections.singleton(Role.USER));
         user.setActive(true);
 
-        Mockito.when(userRepository.save(any()))
-                .thenReturn(user);
-        Mockito.when(userRepository.findByUsername(anyString()))
-                .thenReturn(user);
+        Mockito.when(userRepository.save(any())).thenReturn(user);
+        Mockito.when(userRepository.findByUsername(anyString())).thenReturn(user);
+        Mockito.when(userRepository.authFindUser(anyString())).thenReturn(user);
     }
 
     @Test
     public void testFindUserByEmail() {
-        final String username = "test";
-
         // Run the test
         final UserDetails result = userServices.loadUserByUsername(username);
-
         // Verify the results
         assertEquals(username, result.getUsername());
     }
 
     @Test
     public void testSaveUser() {
-        final String name = "test";
-
         // Run the test
         userServices.saveUser(user);
 
         // Verify the results
-        assertEquals(name, userRepository.findByUsername(name).getUsername());
+        assertEquals("find user by username before save method",
+                username, userRepository.findByUsername(username).getUsername());
     }
 
     @Test
-    public void testAuth() {
-        final String email = "test@test.com";
-        final String username = "test";
-        final String number = "+79991234567";
-
+    public void findUserJpa() {
         // Verify the results
         assertEquals("test email",
                 email, userRepository.findByUsername(email).getEmail());
@@ -87,6 +82,28 @@ public class UserServicesTest {
         assertEquals("test number",
                 number, userRepository.findByUsername(number).getNumber());
 
+    }
+
+    @Test
+    public void findAutUser() {
+        // auth test
+        assertEquals("find by 3 param -> email",
+                username, userRepository.authFindUser(email).getUsername());
+
+        assertEquals("find by 3 param -> phone",
+                username, userRepository.authFindUser(number).getUsername());
+
+        assertEquals("find by 3 param -> username",
+                username, userRepository.authFindUser(username).getUsername());
+
+        assertNotEquals("find by 3 param -> username",
+                "user", userRepository.authFindUser(username).getUsername());
+
+        assertNotEquals("find by 3 param -> email",
+                "email", userRepository.authFindUser(email).getUsername());
+
+        assertNotEquals("find by 3 param -> phone",
+                "+789999999909", userRepository.authFindUser(number).getUsername());
     }
 
 

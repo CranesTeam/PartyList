@@ -20,7 +20,7 @@
     </script>
 
     <!-- Bootstrap core CSS -->
-    <link rel="stylesheet"  th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
 
     <!-- Custom styles -->
     <link rel="stylesheet" th:href="@{/css/signin.css}">
@@ -48,7 +48,8 @@
             <div class="checkbox mb-3 text-left col" id="remember-me">
                 <label><input type="checkbox" value="remember-me"> Remember me</label>
             </div>
-            <a class="col text-right" id="forgot-password" href="passwordrecovery.html">Forgot password?</a>
+            <a class="col text-right" id="forgot-password" href="passwordrecovery.html"
+               th:href="@{/passwordrecovery}">Forgot password?</a>
         </div>
 
         <button class="mb-4 btn btn-lg btn-primary btn-block" type="submit">Sign in</button>

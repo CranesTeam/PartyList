@@ -21,7 +21,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private  UserServices userServices;
+    private UserServices userServices;
 
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
@@ -57,9 +57,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.
                 authorizeRequests()
-                    .antMatchers("/").permitAll()
-                    .antMatchers("/signin").permitAll()
-                    .antMatchers("/registration").permitAll()
+                    .antMatchers("/", "/signin", "/registration", "/passwordrecovery").permitAll()
                     .antMatchers("/views/**").hasAuthority("USER").anyRequest()
                 .authenticated().and().csrf().disable().formLogin()
                     .loginPage("/signin")
@@ -74,11 +72,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    public void configure(WebSecurity web) throws Exception {
+    public void configure(WebSecurity web) {
         web
                 .ignoring()
                 .antMatchers("/resources/**", "/static/**", "/css/**",
                         "/js/**", "/images/**", "/svgs/**", "/webfonts/**", "/img/**"
-                        , "/css/", "../resources/**", "../resources");
+                        , "/css/", "../resources/**");
     }
 }

@@ -2,15 +2,18 @@ package com.cranesteam.partylist.Controllers;
 
 import com.cranesteam.partylist.Domain.User;
 import com.cranesteam.partylist.Services.UserServices;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 /**
  * Main Controller
@@ -18,6 +21,7 @@ import javax.validation.Valid;
  * @author ilyaivankin
  * @see Controller
  */
+@Slf4j
 @Controller
 public class MainController {
 
@@ -27,10 +31,26 @@ public class MainController {
         this.userService = userService;
     }
 
+    /**
+     * signin view
+     * @return model and view
+     */
     @RequestMapping(value={"/", "/signin"}, method = RequestMethod.GET)
-    public ModelAndView login(){
+    public ModelAndView signin(){
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("signin");
+        return modelAndView;
+    }
+
+    /**
+     * password recovery view
+     *
+     * @return model and view
+     */
+    @RequestMapping(value={"/passwordrecovery"}, method = RequestMethod.GET)
+    public ModelAndView passwordRecovery(){
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("passwordrecovery");
         return modelAndView;
     }
 
@@ -38,11 +58,12 @@ public class MainController {
     public ModelAndView registration(){
         ModelAndView modelAndView = new ModelAndView();
         User user = new User();
-        modelAndView.addObject("user", user);
+        modelAndView.addObject("user", user); // fixme
         modelAndView.setViewName("registration");
         return modelAndView;
     }
 
+    // todo: registration
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
     public ModelAndView createNewUser(@Valid User user, BindingResult bindingResult) {
         ModelAndView modelAndView = new ModelAndView();
@@ -64,11 +85,22 @@ public class MainController {
         return modelAndView;
     }
 
+
+    // todo: home page
     @RequestMapping(value="/views/parties", method = RequestMethod.GET)
-    public ModelAndView home(){
+    public ModelAndView home() {
+
         ModelAndView modelAndView = new ModelAndView();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.loadUserByUsername(auth.getName());
+
+        // auth log
+        // todo: logger to table
+        String timeStamp = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss")
+                .format(Calendar.getInstance().getTime());
+        log.info("user auth -> " + user.getUsername() + " " + timeStamp);
+        // end
+
         modelAndView.addObject("userName", "Welcome " + user.getUsername());
         modelAndView.addObject("adminMessage","welcome");
         modelAndView.setViewName("views/parties");

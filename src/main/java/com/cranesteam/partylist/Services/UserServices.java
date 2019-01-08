@@ -3,16 +3,14 @@ package com.cranesteam.partylist.Services;
 import com.cranesteam.partylist.Domain.Role;
 import com.cranesteam.partylist.Domain.User;
 import com.cranesteam.partylist.Repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashSet;
 
 /**
@@ -23,6 +21,7 @@ import java.util.HashSet;
  *
  * @see UserDetailsService
  */
+@Slf4j
 @Service("userServices")
 public class UserServices implements UserDetailsService {
 
@@ -46,18 +45,21 @@ public class UserServices implements UserDetailsService {
      */
     @Override
     public User loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(username);
-        if (user != null) {
-            return user;
-        } else return null; // todo
+        /* find user */
+        User user = userRepository.authFindUser(username);
 
+        if (user == null) {
+            log.warn(username + "-> user is not authorized for this application");
+            throw new UsernameNotFoundException("user is not authorized for this application");
+        }
+        /* return user */
+        return user;
     }
 
     /**
-     * @param user
+     * todo: create full user (registration)
      *
-     * todo: create full user
-     *
+     * @param user user
      */
     public void saveUser(User user) {
         User newUser = new User();

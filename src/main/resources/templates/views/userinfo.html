@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User info</title>
+</head>
+<body>
+    <form th:action="@{/logout}" method="get">
+        <button class="btn btn-md btn-danger btn-block" name="registration"
+                type="Submit">Logout
+        </button>
+    </form>
+
+    <!-- TODO: add user information and download this information -->
+
+     <div class="container">
+         <div class="panel-group" style="margin-top:40px">
+             <div class="panel panel-primary">
+                 <div class="panel-heading">
+                     <span th:utext="${userName}"></span>
+                 </div>
+                 <p class="admin-message-text text-center" th:utext="${adminMessage}"></p>
+             </div>
+         </div>
+     </div>
+
+</body>
+</html>

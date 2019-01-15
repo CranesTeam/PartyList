@@ -32,7 +32,8 @@ public class MainController {
     }
 
     /**
-     * signin view
+     * Signin view
+     *
      * @return model and view
      */
     @RequestMapping(value={"/", "/signin"}, method = RequestMethod.GET)
@@ -43,7 +44,7 @@ public class MainController {
     }
 
     /**
-     * password recovery view
+     * Password recovery view
      *
      * @return model and view
      */
@@ -54,21 +55,41 @@ public class MainController {
         return modelAndView;
     }
 
+
+    /**
+     * Registration -> registration view
+     *
+     * @return model and view
+     */
     @RequestMapping(value="/registration", method = RequestMethod.GET)
-    public ModelAndView registration(){
+    public ModelAndView registration() {
         ModelAndView modelAndView = new ModelAndView();
         User user = new User();
-        modelAndView.addObject("user", user); // fixme
+        modelAndView.addObject("user", user);
         modelAndView.setViewName("registration");
         return modelAndView;
     }
 
-    // todo: registration
+
+    /**
+     * Method create new user
+     *
+     * @param user new user
+     * @param bindingResult binding Result (for messages)
+     * @return model and view
+     *
+     * @see User
+     */
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
     public ModelAndView createNewUser(@Valid User user, BindingResult bindingResult) {
         ModelAndView modelAndView = new ModelAndView();
-        User userExists = userService.loadUserByUsername(user.getUsername());
-        if (userExists != null) {
+
+
+        // TODO: ALL REFACTORING
+        // THIS past is boolshit
+
+        /* check user from services */
+        if (userService.findUserByUsername(user.getUsername()) != null) {
             bindingResult
                     .rejectValue("username", "error.user",
                             "There is already a user registered with the username provided");
@@ -76,7 +97,9 @@ public class MainController {
         if (bindingResult.hasErrors()) {
             modelAndView.setViewName("registration");
         } else {
+            /* else save new user*/
             userService.saveUser(user);
+
             modelAndView.addObject("successMessage", "User has been registered successfully");
             modelAndView.addObject("user", new User());
             modelAndView.setViewName("registration");
@@ -106,6 +129,8 @@ public class MainController {
         modelAndView.setViewName("views/parties");
         return modelAndView;
     }
+
+
 
 
 }

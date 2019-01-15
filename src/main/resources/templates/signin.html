@@ -1,5 +1,6 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -19,16 +20,17 @@
     </script>
 
     <!-- Bootstrap core CSS -->
-    <link href="../static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
 
     <!-- Custom styles -->
-    <link href="../static/css/signin.css" rel="stylesheet">
-    <link href="../static/css/all.min.css" rel="stylesheet">
+    <link href="../static/css/signin.css" th:href="@{/css/signin.css}" rel="stylesheet">
+    <link href="../static/css/all.min.css" th:href="@{/css/all.min.css}" rel="stylesheet">
 <body class="text-center">
+
 <div class="container">
 
     <form class="form-signin" id="signin" method="post">
-        <img alt="" class="my-4" height="150" src="../static/img/logo-black.svg" width="150">
+        <img alt="" class="my-4" height="150" th:src="@{/img/logo-black.svg}" width="150">
 
         <h1 class="mb-4">Sign In</h1>
 
@@ -47,13 +49,16 @@
             <div class="checkbox mb-3 text-left col" id="remember-me">
                 <label><input type="checkbox" value="remember-me"> Remember me</label>
             </div>
-            <a class="col text-right" id="forgot-password" href="passwordrecovery.html">Forgot password?</a>
+            <a class="col text-right" id="forgot-password" href="passwordrecovery.html"
+               th:href="@{/passwordrecovery}">Forgot password?</a>
         </div>
 
         <button class="mb-4 btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
     </form>
 
-    <a id="registration" href="registration.html">Don't have an account? Sign Up</a>
+    <a id="registration" href="registration.html" th:method="get" th:href="@{/registration}">
+        Don't have an account? Sign Up</a>
+
     <p class="my-5 text-muted align-content-end" id="footer"></p>
 </div>
 </body>

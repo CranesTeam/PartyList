@@ -5,6 +5,7 @@ import com.cranesteam.partylist.Domain.User;
 import com.cranesteam.partylist.Repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Scope;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -23,6 +24,7 @@ import java.util.HashSet;
  */
 @Slf4j
 @Service("userServices")
+@Scope("singleton")
 public class UserServices implements UserDetailsService {
 
     private UserRepository userRepository;
@@ -56,12 +58,21 @@ public class UserServices implements UserDetailsService {
         return user;
     }
 
+    public User findUserByUsername(String username) throws UsernameNotFoundException{
+        /* find user */
+        return userRepository.findByUsername(username);
+    }
+
+
     /**
      * todo: create full user (registration)
      *
      * @param user user
      */
     public void saveUser(User user) {
+
+        // todo: check user
+
         User newUser = new User();
         newUser.setUsername(user.getUsername());
         newUser.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
